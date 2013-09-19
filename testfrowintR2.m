@@ -4,13 +4,13 @@
 % First Season Summer Dynamics 
 
 agemax = 60; % +1 because of matlab indexing
-global s1 s2 s3 s4 s5 s6;
- s1=0.95; % 0.86--survivorship for egg stage 
- s2= 0.98; % 86.8% ---survivorship for larval stage 
-    s3= 0.99 ; % 88.6%--survivorship for pupal stage 
-           s4= 0.99; % 85%--survivorship for nurse bee stage 
-              s5= 0.98; % 88.6%--survivorship for house bee stage 
-                 s6=0.98; % 78.5%--survivorship for forager bee stage
+global mt1 mt2 mt3 mt4 mt5 mt6 ; 
+ mt1=0.95; % 0.86--survivorship for egg stage 
+ mt2= 0.98; % 86.8% ---survivorship for larval stage 
+    mt3= 0.99 ; % 88.6%--survivorship for pupal stage 
+           mt4= 0.99; % 85%--survivorship for nurse bee stage 
+              mt5= 0.98; % 88.6%--survivorship for house bee stage 
+               mt6=0.98; % 78.5%--survivorship for forager bee stage
 
 
 G = zeros(6,agemax);
@@ -52,7 +52,7 @@ H=zeros(1,tx);
 R=zeros(1,tx);
 
 
-numyears =4;
+numyears =2;
 summerdays = 240;
 yeardays = 360;
 
@@ -115,9 +115,8 @@ for T = 0:(numyears-1)
 
     H0 = H(1,summerdays);
 
-    % R0 = R(1,summerdays);
+    R0 = R(1,summerdays);
     
-    R0= 50; 
 
     Y = [ V0; P0; H0;R0; N ];
 
@@ -136,7 +135,7 @@ for T = 0:(numyears-1)
 
 	for t=(yeardays*T+summerdays+1):(yeardays*(T+1))
 
-		Y = winterbeesR2(Y,t);
+		Y = winterbeesR(Y,t);
 
 		res(1:4,(t-(yeardays*T+summerdays)))=W*Y(5:end);
        
