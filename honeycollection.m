@@ -1,4 +1,4 @@
-function hy = honeycollection(x,y) 
+function hy = honeycollection(s5,s6) 
 	global fa fr fs mS mQ mT ss iQ rs k j m Q omega td; 
     
 	fa = 900; % forager round-trip time 
@@ -20,8 +20,8 @@ function hy = honeycollection(x,y)
 	%RI=res(5,t);
 
 	trange = [0:60:3600*8];
-	initial=[0.8*x+10,0.8*x+10,1,0,0,0.8*y]';
-	[y,t] = lsode(@nectarODE,initial',trange);
+	initial=[0.8*s5+10,0.8*s5+10,1,0,0,0.8*s6];
+	[y,t] = lsode(@nectarODE,initial,trange);
 	hy=y(end,5); 
 
 end 

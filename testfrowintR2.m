@@ -62,6 +62,20 @@ Ppop=zeros(1,yeardays*numyears);
 Hpop=zeros(1,yeardays*numyears);
 Rpop=zeros(1,yeardays*numyears);
 
+% pre-compute honey foraging numbers, if needed
+global hsurfX hsurfY hsurf;
+
+if ( 0 != exist('hsurfX.data','file') )
+	load "hsurfX.data";
+	load "hsurfY.data";
+	load "hsurf.data";
+end
+if ( 0 == exist('hsurfX','var') ) 
+    trialsurf;
+end
+
+
+
 for T = 0:(numyears-1)
 
           for t=(yeardays*T+1):(yeardays*T+summerdays)
@@ -205,4 +219,3 @@ B=Hpop;
 YMatrix2= [A;B]';
 Y1=Rpop;
 createfigure1(YMatrix1, YMatrix2, Y1); 
-

@@ -9,7 +9,7 @@
 
 % The larger Hn and Fn, the more accurate your interpolation
 
-Hn = 20; Fn = 20;
+Hn = 25; Fn = 25;
 global hsurfX hsurfY hsurf;
 
 % 
@@ -17,8 +17,8 @@ global hsurfX hsurfY hsurf;
 % The code has a problem if we plug 0 into the ODE's below, so we
 % start at 1.  I'm just guessing that 4000 is a large enough
 % upper bound, but this may need to be increased.
-H = 10.^linspace(1,4,Hn);
-F = 10.^linspace(1,4,Fn);
+H = 10.^linspace(1,5,Hn);
+F = 10.^linspace(1,5,Fn);
 hsurfX=H;
 hsurfY=F;
 hsurf = zeros(length(H),length(F));
