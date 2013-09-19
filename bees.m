@@ -45,7 +45,7 @@ survivorship = ones(agemax,1)*.99;
 survivorship(27:42,1)= (1-u)*.99;
 % survivorship(24:34,1)= (1-u)*.98;
 
-survivorship(49:agemax,1)= (1-v)*.85;
+survivorship(49:agemax,1)= (1-v)*.99;
 % survivorship(45:agemax,1)= (1-v)*.0;
 
 % theta = probabilities of development retardation
@@ -56,9 +56,12 @@ theta = 0.00*ones(agemax-1,1);
 
 %maxProduction = 2000.-0.5*(date-queenbirthdate);
 relativedate = mod(date,360);
-maxProduction= (0.0000434)*(relativedate)^4.98*exp(-0.05674*relativedate);
+maxProduction= (0.0000434)*(relativedate)^4.98293*exp(-0.05287*relativedate);
 
-a1 = .0;
+%%%%%%%%%%%%%%%%%%%%%%%%consumption rate for pollen&honey %%%%%%%%%%%%%%%%%
+
+
+a1 = .0; %  a cellful of pollen weighs~~0.23g
 
 a2 = .005; % fraction of a cell's pollen consumed by a larva in one day
 
@@ -68,11 +71,23 @@ a4 = .028; % fraction of a cell's pollen consumed by a nurse in one day
 
 a5 = .002; % fraction of a cell's pollen removed by a house bee in one day
 
+h1=0; % fraction of a cell's honey consumed by a bee in one day, a cellflu of honey weighs~~0.5g
+
+h2=0.02378;
+
+h3=0;
+
+h4=0.1;
+
+h5=0.036;
+
+h6=0.2286; 
+
 foragingsuccess  = 0.5; % number of cells of pollen collected by a forager in 1 day. Should depend on things.
 
 %foragingsuccess  = f(date) ?
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%% Current conditions %%%%%%%%
 
@@ -80,7 +95,9 @@ Vt = state(1);
 
 Pt = state(2); % Pt for pollen cells at time t.  Formlerly F_t for food at time t.
 
-Nt = state(4:end);
+Ht=state(3);% Ht for honey cells at time t. 
+
+Nt = state(5:end);
 
 % assert length(Nt) == agemax
 
@@ -92,11 +109,13 @@ E = eye(agemax);
 
 stage = s*Nt;
 
-foodeaten =  min([Pt,a2*stage(2)+a4*stage(4)+a5*stage(5)]);
+foodeaten =  min([Pt,a2*stage(2)+a4*stage(4)+a5*stage(5)]); % pollen consumption 
+
+honeyeaten= min([Ht,h2*stage(2)+h4*stage(4)+h5*stage(5)+h6*stage(6)]); % honey consumption 
 
 scavangedcells = Nt(1:26)'*(1-survivorship(1:26));
 
-vacated = Nt(26) + foodeaten;
+vacated = Nt(26) + foodeaten+honeyeaten;
 
 R = min([maxProduction,stage(4)*2,Vt+vacated+scavangedcells]);
 
@@ -105,31 +124,35 @@ R = min([maxProduction,stage(4)*2,Vt+vacated+scavangedcells]);
 storedfood = min([foragingsuccess*stage(6),Vt+vacated+scavangedcells-R]);
 
 
+%%%%%%%Honey collection time --around 150days--field season%%%%%%%%%%%%%%%%%%%%%%
+
+storedhoney=honeycellstorage; % nectar forage DDE model 
+
+Ht1= Ht-honeyeaten+storedhoney; % Ht from the nectarODE, the net honey storage at the end of the day. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 Pt1 = Pt- foodeaten + storedfood;
 
-Vt1 = Vt +vacated - R -storedfood + scavangedcells;
+Vt1 = Vt +vacated - R -storedfood-storedhoney+ scavangedcells;
 
   
 
-if ( stage(2) <= 0 )
+% if ( stage(2) <= 0 )
+% 
+% 	survivorship(4:11) = .99;
+% 
+% else
 
-	survivorship(4:11) = .99;
+	
 
-else
-
-	survivorship(4:11) = .99*( 1 - max(0,1- Pt/(a2*stage(2))));
-
-end
-
-
-
-
+% end
 
 % there should also be a reduction of nurse survivorship under food
 
 % shortages, but for the moment, we don't know what the right biology is.
 
 
+survivorship(4:11) = .99*( 1 - max(0,1- Pt/(a2*stage(2))));
 
 A = (diag(1-theta,-1)+diag([0;theta]))*diag(survivorship);
 
@@ -178,7 +201,7 @@ Nt1(1) = R;
 
 
 
-nextstate = [ Vt1; Pt1; R; Nt1 ];
+nextstate = [ Vt1; Pt1; Ht1; R; Nt1 ];
 
 
 
