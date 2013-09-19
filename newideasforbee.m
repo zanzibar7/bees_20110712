@@ -26,9 +26,6 @@ function nextstate = bees(state,date,queenbirthdate)
 	% fraction of a cell's pollen consumed by a nurse in one day, the pollen
 	% consumption by one nusre bee for its development is 65mg
 
-	foragingsuccess  = 1;
-	% number of cells of pollen collected by a forager in 1 day. Should depend on
-	% things. reference: winston book 'the biology of honey bee'
 
 
 	% Vt is the number of vacant cells in hive on day t.
@@ -41,15 +38,16 @@ function nextstate = bees(state,date,queenbirthdate)
 	Nt = state(3:end);
 
 	% assert length(Nt) == agemax
-	s = zeros(5,agemax);
-	s(1,1:3)=1; s(2,4:11)=1; s(3,12:26)=1; s(4,27:45)=1; s(5,46:agemax)=1;
+	s = zeros(6,agemax);
+	s(1,1:3)=1; s(2,4:11)=1; s(3,12:26)=1; s(4,27:39)=1;\
+				s(5,40:45)=1; s(6,46:agemax)=1;
 	stage = s*Nt;	% useful for nonlinearities.
 					% 1=egg,2=larvae,3=pupae,4=nurse,5=forager
 
-	vacated = Nt(26) + min([Pt,a2*stage(2) + a4*stage(4)]);
-	R = min([maxProduction,regularProduction,stage(4)/2,Vt+vacated]);
-	storedfood = min([foragingsuccess*stage(5),Vt+vacated-R]);
-	Pt1 = Pt- min([Pt,a2*stage(2)+a4*stage(4)]) + storedfood;
+	vacated = Nt(26) + min([Pt,a2*stage(2) + a4*(stage(4)+stage(5))]);
+	R = min([maxProduction,regularProduction,(stage(4)+stage(5))/2,Vt+vacated]);
+	storedfood = min([DailyForage(stage(6),stage(5)),Vt+vacated-R]);
+	Pt1 = Pt- min([Pt,a2*stage(2)+a4*(stage(4)+stage(5))]) + storedfood;
 	Vt1 = Vt + vacated - R -storedfood;
 
 	if ( stage(2) <= 0 )
