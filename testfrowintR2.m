@@ -1,5 +1,18 @@
-%nrm = [1/3,1/8,1/15,1/16,1/6,1/12]'; % normalize frequencies for each
-%stage
+% pre-compute honey foraging numbers, if needed
+global hsurfX hsurfY hsurf;
+
+if ( 0 != exist('hsurfX.data','file') )
+	disp("Loading nector surface");
+	load "hsurfX.data";
+	load "hsurfY.data";
+	load "hsurf.data";
+end
+if ( 0 == exist('hsurfX','var') ) 
+	disp("Precomputing nector surface");
+    trialsurf;
+end
+
+%nrm = [1/3,1/8,1/15,1/16,1/6,1/12]'; % normalize frequencies for each stage
 
 % First Season Summer Dynamics 
 
@@ -61,18 +74,6 @@ Vpop=zeros(1,yeardays*numyears);
 Ppop=zeros(1,yeardays*numyears);
 Hpop=zeros(1,yeardays*numyears);
 Rpop=zeros(1,yeardays*numyears);
-
-% pre-compute honey foraging numbers, if needed
-global hsurfX hsurfY hsurf;
-
-if ( 0 != exist('hsurfX.data','file') )
-	load "hsurfX.data";
-	load "hsurfY.data";
-	load "hsurf.data";
-end
-if ( 0 == exist('hsurfX','var') ) 
-    trialsurf;
-end
 
 
 
@@ -219,3 +220,4 @@ B=Hpop;
 YMatrix2= [A;B]';
 Y1=Rpop;
 createfigure1(YMatrix1, YMatrix2, Y1); 
+close all;

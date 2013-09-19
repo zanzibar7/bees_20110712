@@ -99,19 +99,25 @@ storedfood = min([foragingsuccess*stage(6),Vt+vacated+scavangedcells-R]);% polle
 % base on the nectar foraging mechanism proposed by Tom Seeley
 
 global hsurfX hsurfY hsurf;
+%disp([stage(5),stage(6)])
 storedhoney=interp2(hsurfX,hsurfY,hsurf,stage(5),stage(6));
+if ( 0==exist('storedhoney','var') || isnan(storedhoney) || storedhoney<0 )
+	storedhoney=1.e-3;
+end
 
-% if ( 0 == exist('hsurfX','var') ) 
-% 	storedhoney=interp2(hsurfX,hsurfY,hsurf,stage(5),stage(6));
-% else
+%if ( 0==exist('storedhoney','var') || isnan(storedhoney) || storedhoney<0 )
 % 	storedhoney= honeycollection(stage(5),stage(6)); % Nectar Input by the nectar foraging ODE model 
-% end
+%end
+
+%global nectar_debug;
+%nectar_debug = [ nectar_debug; [date, stage(5), stage(6), storedhoney] ];
+%disp([date, stage(5), stage(6), storedhoney])
 
 %%%%%%%%%Pollen, Honey, Cells net input%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Pt1 = Pt- foodeaten + storedfood; % The net pollen storage at the end of the day 
-Ht1= Ht-honeyeaten+storedhoney; % The net honey storage at the end of the day. 
-Vt1 = Vt +vacated - R -storedfood-storedhoney+ scavangedcells; % The net vacant cells 
-Nt1(1) = R; 
+Pt1 = max(0,Pt- foodeaten + storedfood); % The net pollen storage at the end of the day 
+Ht1= max(0,Ht-honeyeaten+storedhoney); % The net honey storage at the end of the day. 
+Vt1 = max(0,Vt +vacated - R -storedfood-storedhoney+ scavangedcells); % The net vacant cells 
+Nt1(1) = max(0,R); 
 
 
 nextstate = [ Vt1; Pt1; Ht1; R; Nt1 ];  
