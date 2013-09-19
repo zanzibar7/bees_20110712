@@ -25,7 +25,8 @@ trange = [0:60:3600*8];
 % H = 2000;
 % F = 3000;
 % initial = [H,H,1,0,0,F]; 
-[t,y] = ode45(@nectarODE,trange,initial);
+
+[y,t] = lsode(@nectarODE,initial',trange);
 
 % figure(1);
 % clf;

@@ -136,13 +136,3 @@ return
 
 %[date,R,storedfood,Vt1-Vt,sum(stage(1:3))+Vt+Pt]
 
-
-
-
-
-
-
-
-
-
-

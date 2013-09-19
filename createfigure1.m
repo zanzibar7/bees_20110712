@@ -21,7 +21,7 @@ axes1 = axes('Parent',figure1,...
     'Position',[0.13 0.6409 0.8037 0.2891],...
     'FontSize',11);
 box('on');
-hold('all');
+hold on;
 
 % Create multiple lines using matrix input to plot
 plot1 = plot(YMatrix1);
@@ -36,7 +36,7 @@ set(plot1(6),'DisplayName','Forager','Color',[0 0 0]);
 ylabel('Number of Bees');
 
 % Create title
-title({'A Healthy Honey Bee Colony Population Dynamics --four-year-simulation'});
+title('A Healthy Honey Bee Colony Population Dynamics --four-year-simulation');
 
 % Create legend
 legend(axes1,'show');
@@ -48,7 +48,7 @@ axes2 = axes('Parent',figure1,...
     'XTick',xdata,...
     'Position',[0.1294 0.302 0.8056 0.2597]);
 box('on');
-hold('all');
+hold on;
 
 % Create multiple lines using matrix input to plot
 plot2 = plot(YMatrix2);
@@ -69,12 +69,14 @@ axes3 = axes('Parent',figure1,...
     'XTick',xdata,...
     'Position',[0.1294 0.03867 0.805 0.2081]);
 box('on');
-hold('all');
+%hold('all');
 
 % Create plot
 plot(Y1,'Parent',axes3,'Marker','o','Color',[0 0 0]);
 
 % Create ylabel
 ylabel('Number of Eggs');
+
+print -Pepsc2 -color -solid output.eps
 
 end 
