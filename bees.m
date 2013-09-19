@@ -98,8 +98,7 @@ storedfood = min([foragingsuccess*stage(6),Vt+vacated+scavangedcells-R]);% polle
 %%%%%%%Nectar Input--around 150days--field season%%%%%%%%%%%%%%%%%%%%%%
 % base on the nectar foraging mechanism proposed by Tom Seeley
 
-initial=[0.8*stage(5)+10,0.8*stage(5)+10,1,0,0,0.8*stage(6)]';
-storedhoney= honeycollection(initial); % Nectar Input by the nectar foraging ODE model 
+storedhoney= honeycollection(stage(5),stage(6)); % Nectar Input by the nectar foraging ODE model 
 
 %%%%%%%%%Pollen, Honey, Cells net input%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Pt1 = Pt- foodeaten + storedfood; % The net pollen storage at the end of the day 

@@ -1,32 +1,31 @@
- function hy = honeycollection(initial) 
- global fa fr fs mS mQ mT ss iQ rs k j m Q omega td; 
+function hy = honeycollection(x,y) 
+	global fa fr fs mS mQ mT ss iQ rs k j m Q omega td; 
     
-       fa = 900; % forager round-trip time 
-       fr = 0.001; % forager recruitment rate s-1
-       fs = fr / 5; % forage resting rate s-1
-        mS = 10; % half-maximal search time 
-        mQ = 1.5; %  half-maximal forage quality (mol/l)
-        mT = 30; % the minimum search time for which tremeble dancing occurs
-        ss = 5;% single interaction time 
-        iQ = 3.0; % High quality for scaling receiver response 
-        rs = 60*20; % receiver storage time 
-        k  = 4; % search time coefficient 
-        j = 4; % forage quality coefficient 
-        m=5; % the steepness of the response to tremble dancing 
-        Q  = 3.0; % true nectar quality defined by its sucrose concentration measured in moles per litre since it can be communicated to the receivers
-         % initial receiver and forager bees size 
-        omega = 0.1; % the maximal recruitment rate due to tremeble dance 
-        td = 1; % 
-       %RI=res(5,t);
-       
+	fa = 900; % forager round-trip time 
+	fr = 0.001; % forager recruitment rate s-1
+	fs = fr / 5; % forage resting rate s-1
+	mS = 10; % half-maximal search time 
+	mQ = 1.5; %  half-maximal forage quality (mol/l)
+	mT = 30; % the minimum search time for which tremeble dancing occurs
+	ss = 5;% single interaction time 
+	iQ = 3.0; % High quality for scaling receiver response 
+	rs = 60*20; % receiver storage time 
+	k  = 4; % search time coefficient 
+	j = 4; % forage quality coefficient 
+	m=5; % the steepness of the response to tremble dancing 
+	Q  = 3.0; % true nectar quality defined by its sucrose concentration measured in moles per litre since it can be communicated to the receivers
+	% initial receiver and forager bees size 
+	omega = 0.1; % the maximal recruitment rate due to tremeble dance 
+	td = 1; % 
+	%RI=res(5,t);
 
-trange = [0:60:3600*8];
-       
-% H = 2000;
-% F = 3000;
-% initial = [H,H,1,0,0,F]; 
+	trange = [0:60:3600*8];
+	initial=[0.8*x+10,0.8*x+10,1,0,0,0.8*y]';
+	[y,t] = lsode(@nectarODE,initial',trange);
+	hy=y(end,5); 
 
-[y,t] = lsode(@nectarODE,initial',trange);
+end 
+
 
 % figure(1);
 % clf;
@@ -48,10 +47,6 @@ trange = [0:60:3600*8];
 % % Create title
 % 
 % title({'Nectar Foraging'},'FontSize',16);
-
-hy=y(end,5); 
-
-    end 
 
 
 
