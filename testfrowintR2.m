@@ -1,11 +1,11 @@
 % pre-compute honey foraging numbers, if needed
 global hsurfX hsurfY hsurf;
 
-if ( 0 != exist('128/hsurfX.data','file') )
+if ( 0 != exist('data/hsurfX.data','file') )
 	disp("Loading nector surface");
-	load "128/hsurfX.data";
-	load "128/hsurfY.data";
-	load "128/hsurf.data";
+	load "data/hsurfX.data";
+	load "data/hsurfY.data";
+	load "data/hsurf.data";
 end
 if ( 0 == exist('hsurfX','var') ) 
 	disp("Precomputing nector surface");
