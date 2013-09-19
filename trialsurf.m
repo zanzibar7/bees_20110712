@@ -7,7 +7,7 @@
 % H = stage(5)
 % F = stage(6)
 
-% The larger Hn and Fn, the more accurate your interpolation
+% The larger the integers Hn and Fn, the more accurate your interpolation
 
 Hn = 128; Fn = 128;
 global hsurfX hsurfY hsurf;
@@ -23,12 +23,17 @@ hsurfX=H;
 hsurfY=F;
 hsurf = zeros(length(H),length(F));
 for i=1:1:Hn
-	for j=1:1:Fn
-		Hi = H(i);
-		Fj = F(j);
-		predictedhoney = honeycollection( H(i), F(j) );
-		hsurf(j,i) = predictedhoney;
-	end
+        for j=1:1:Fn
+                A(1+(i-1)+Hn*(j-1)).d = [ H(i), F(j) ];
+        end
+end
+predictedhoney = @(x) honeycollection( x.d(1), x.d(2) );
+fA = arrayfun( predictedhoney, A );
+%fA = pararrayfun( predictedhoney, A );
+for i=1:1:Hn
+        for j=1:1:Fn
+                hsurf(i,j) = fA(1+(i-1)+Hn*(j-1));
+        end
 end
 
 save hsurfX.data hsurfX -ascii

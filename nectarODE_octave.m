@@ -1,4 +1,4 @@
-function dy = nectarODE(T,y)
+function dy = nectarODE_octave(y,T)
 
    global qds fa fr fs mS mQ mT ss iQ rs k j m Q  omega tra; 
   

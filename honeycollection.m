@@ -17,36 +17,21 @@ function hy = honeycollection(s5,s6)
 	% initial receiver and forager bees size 
 	omega = 0.1; % the maximal recruitment rate due to tremeble dance 
 	td = 1; % 
-	%RI=res(5,t);
 
-	trange = [0:60:3600*8];
+	nt=8; %number of hours that foraging could be going on
+	trange = [0:60:3600*nt]; %goes through and counts seconds by the minute
 	initial=[0.8*s5+10,0.8*s5+10,1,0,0,0.8*s6];
-	[t,y] = ode45(@nectarODE,trange,initial);
+
+	if exist("ode45", "file")
+		% use this version in matlab
+		[t,y] = ode45(@nectarODE_matlab,trange,initial);
+	elseif exist("lsode", "file")
+		% use this version in octave
+		[y,t] = lsode(@nectarODE_octave,initial,trange);
+	else
+		assert(0,"No ode solver known -- please implement");
+	end
+
 	hy=y(end,5); 
 
 end 
-
-
-% figure(1);
-% clf;
-% plot(t,y(:,1),'r-');
-% hold on;
-% plot(t,y(:,2),'b-');
-% plot(t,y(:,3),'g-');
-% plot(t,y(:,4),'k-');
-% plot(t,y(:,5),'yo');
-% plot(t,y(:,6),'go');
-% 
-% legend('Total receiver bees','Receiver bees ready to receive','Total forager bees','Forager bees ready to unload','honey collection', 'Totatl Forager Number emerged ')
-% % Create ylabel
-% 
-% xlabel({'time-seconds'},'FontSize',12,'Color',[0.07843 0.1686 0.549]);
-% 
-% % ylabel({'Number of bees'},'FontSize',12,'Color',[0.07843 0.1686 0.549]);
-% 
-% % Create title
-% 
-% title({'Nectar Foraging'},'FontSize',16);
-
-
-
