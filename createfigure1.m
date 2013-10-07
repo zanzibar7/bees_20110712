@@ -79,6 +79,6 @@ plot(Y1,'Parent',axes3,'Marker','o','Color',[0 0 0]);
 % Create ylabel
 ylabel('Number of Eggs');
 
-print -Pepsc2 -color -solid output.eps
+print -depsc output.eps
 
 end 
