@@ -1,4 +1,4 @@
-function dy = nectarODE(y,T)
+function dy = nectarODE(T,y)
 
    global qds fa fr fs mS mQ mT ss iQ rs k j m Q  omega tra; 
   
@@ -13,8 +13,7 @@ function dy = nectarODE(y,T)
     tra = 0;    % trembling abandonment
     % calculate search time (with default to prevent /0 errors)
 
-   
-       S = ss * (sum(y(2:2:end))) / (ssc * y(2)); % the expected search time 
+    S = ss * (sum(y(2:2:end))) / (ssc * y(2)); % the expected search time 
   
     d1= S^k + mS^k;
     d2= Q^j + mQ^j;
