@@ -21,7 +21,7 @@ function hy = honeycollection(s5,s6)
 
 	trange = [0:60:3600*8];
 	initial=[0.8*s5+10,0.8*s5+10,1,0,0,0.8*s6];
-	[y,t] = lsode(@nectarODE,initial,trange);
+	[t,y] = ode45(@nectarODE,trange,initial);
 	hy=y(end,5); 
 
 end 
