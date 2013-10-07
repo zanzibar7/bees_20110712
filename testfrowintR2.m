@@ -15,7 +15,7 @@ end
 E = exist('hsurfX','var');
 disp('E=');
 disp(E);
-if ( 0 == E ) 
+if ( 0 == E || isempty(hsurf) ) 
 	disp('Precomputing nector surface');
     trialsurf;
 end
